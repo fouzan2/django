@@ -34,8 +34,8 @@
 
     <form method="POST">
         {% csrf_token %}
-        <label for="number">Enter Number: </label><br>
-        <input type="number" id="number" name="number">
+        <label for="text">Enter Text: </label><br>
+        <input type="text" id="text" name="text">
         <button type="submit">Calculate</button>
         <h2>{{result}}</h2>
     </form>

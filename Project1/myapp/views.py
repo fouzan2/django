@@ -4,13 +4,13 @@ from .models import Person
 # Create your views here.
 
 
+
 def welcome(request):
     result = None
 
     if request.method == "POST":
-        mynum = int(request.POST["number"])
-        mynum1 = int(request.POST["number"])
-        result = mynum * 99
+        mynum = str(request.POST["text"])
+        result = mynum 
  
         myinstance = Person(userinputvalue=mynum, mycalcvalue=result)
         myinstance.save()
