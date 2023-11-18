@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <style>
+        * {
+            font-family: sans-serif;
+            font-size: larger; 
+            margin: 50px 50px 50px 50px;
+        }
+        a{
+            text-decoration: none;
+            color: red;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        a:hover{
+            background-color: black;
+            color: white;
+            transition: .3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Hello!</h1>
+    <a href="{% url 'about' %}">About</a>
+    <a href="{% url 'contact' %}">Contact US</a>
+    <a href="{% url 'login' %}">Login Form</a>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="number">Enter Number: </label><br>
+        <input type="number" id="number" name="number">
+        <button type="submit">Calculate</button>
+        <h2>{{result}}</h2>
+    </form>
+</body>
+
+</html>
