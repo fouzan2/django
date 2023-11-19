@@ -6,8 +6,9 @@ client = OpenAI(api_key="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")
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
@@ -22,6 +23,7 @@ def gpt_process(string_value):
     return str(completion.choices[0].message.content)
 
 
+@login_required
 def welcome(request):
     result = None
 
@@ -38,10 +40,12 @@ def welcome(request):
     return render(request, "index.html", {"result": result})
 
 
+@login_required
 def about_fun(request):
     return render(request, "about.html")
 
 
+@login_required
 def contactus_fun(request):
     return render(request, "contactus.html")
 
@@ -70,3 +74,8 @@ def login_view(request):
         form = AuthenticationForm()
 
     return render(request, "login.html", {"form": form})
+
+
+def logoutUser(request):
+    logout(request)
+    return redirect("login")
