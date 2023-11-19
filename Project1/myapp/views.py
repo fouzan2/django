@@ -1,8 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Person
 from openai import OpenAI
 
 client = OpenAI(api_key="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")
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -10,8 +15,8 @@ def gpt_process(string_value):
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-            {"role": "user", "content": string_value},
             {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "user", "content": string_value},
         ],
     )
     return str(completion.choices[0].message.content)
@@ -41,5 +46,27 @@ def contactus_fun(request):
     return render(request, "contactus.html")
 
 
-def login_fun(request):
-    return render(request, "loginform.html")
+def signup_view(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("login")
+    else:
+        form = UserCreationForm()
+
+    return render(request, "signup.html", {"form": form})
+
+
+def login_view(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("welcome")
+    else:
+        form = AuthenticationForm()
+
+    return render(request, "login.html", {"form": form})
