@@ -23,7 +23,7 @@ def gpt_process(string_value):
     return str(completion.choices[0].message.content)
 
 
-@login_required
+@login_required(login_url='login')
 def welcome(request):
     result = None
 

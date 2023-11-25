@@ -6,22 +6,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome Page</title>
     <style>
-        * {
+        body {
             font-family: sans-serif;
-            font-size: larger; 
-            margin: 50px 50px 50px 50px;
+            font-size: larger;
+            margin: 50px;
         }
-        a{
+
+        a {
             text-decoration: none;
             color: red;
             cursor: pointer;
-            display: flex;
-            flex-direction: column;
+            display: flexbox;
+            margin-bottom: 10px;
         }
-        a:hover{
+
+        a:hover {
             background-color: black;
             color: white;
             transition: .3s ease-in-out;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px 0;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #920b0b;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #111010;
+            color: white;
+        }
+
+        h2 {
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -35,7 +74,7 @@
     {% endif %}
     <a href="{% url 'about' %}">About</a>
     <a href="{% url 'contact' %}">Contact US</a>
-    
+
 
     <form method="POST">
         {% csrf_token %}
