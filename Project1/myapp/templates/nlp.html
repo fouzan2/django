@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            font-family: sans-serif;
+            font-size: larger;
+            margin: 50px;
+        }
+
+        a {
+            text-decoration: none;
+            color: red;
+            cursor: pointer;
+            display: flexbox;
+            margin-bottom: 10px;
+        }
+
+        a:hover {
+            background-color: black;
+            color: white;
+            transition: .3s ease-in-out;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 20px 0;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #920b0b;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #111010;
+            color: white;
+        }
+
+        h2 {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="{% url 'welcome' %}">Home</a>
+    <a href="{% url 'contact' %}">Contact Us</a>
+    <a href="{% url 'about' %}">About Us</a>
+    <div class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+            <label for="text">Enter Text: </label><br>
+            <input type="text" id="text" name="text">
+            <button type="submit">Submit</button>
+            <h2>{{result}}</h2>
+        </form>
+    </div>
+</body>
+
+</html>

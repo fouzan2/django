@@ -2,13 +2,22 @@ from django.shortcuts import render, redirect
 from .models import Person
 from openai import OpenAI
 
-client = OpenAI(api_key="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")
+client = OpenAI(api_key="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")
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+import joblib
+
+loaded_tokenizer, loaded_binr, loaded_model = joblib.load(
+    "D:/AI Course/AI Course/Labs/Django/django/Project1/myapp/imdb_model.joblib"
+)
+from keras.preprocessing.text import Tokenizer
+from keras import preprocessing
+from keras.utils import pad_sequences
+import pandas as pd
 
 
 # Create your views here.
@@ -23,7 +32,7 @@ def gpt_process(string_value):
     return str(completion.choices[0].message.content)
 
 
-@login_required(login_url='login')
+@login_required(login_url="login")
 def welcome(request):
     result = None
 
@@ -79,3 +88,29 @@ def login_view(request):
 def logoutUser(request):
     logout(request)
     return redirect("login")
+
+
+def nlp_pred(user_input_text):
+    print("In function")
+    loaded_tokenizer, loaded_binr, loaded_model = joblib.load(
+        "D:/AI Course/AI Course/Labs/Django/django/Project1/myapp/imdb_model.joblib"
+    )
+    print("model loading")
+    input_text = user_input_text
+    input_sequence = loaded_tokenizer.texts_to_sequences([input_text])
+    input_padded = pad_sequences(input_sequence, maxlen=30)
+    predicted_ans = loaded_model.predict(input_padded)
+    predicted_labels = loaded_binr.inverse_transform(predicted_ans)
+    print(predicted_labels)
+    return predicted_labels
+
+
+@login_required
+def nlp(request):
+    result = None
+    if request.method == "POST":
+        user_input_text = str(request.POST["text"])
+        sentiment = nlp_pred(user_input_text)
+        result = sentiment
+    pass
+    return render(request, "nlp.html", {"result": result})
